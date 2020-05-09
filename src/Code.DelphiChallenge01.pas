@@ -23,9 +23,56 @@ function Challenge01(const aText:string; const aChar:char): string;
 
 implementation
 
+uses
+  System.SysUtils;
+
 function Challenge01(const aText:string; const aChar:char): string;
+var
+  i: Integer;
+  lSB : TStringBuilder;
+  iStart : Integer;
+  iEnd : Integer;
+  iCopyStart : Integer;
 begin
-  Result := '';
+  if Length(aText) < 2 then
+  begin
+    Exit(aText);
+  end;
+  lSB := TStringBuilder.Create(Length(aText));
+  try
+    i := 1;
+    iStart := 1;
+    iEnd := 1;
+    iCopyStart := 1;
+    while i < Length(aText) do
+    begin
+      if aText[i] = aChar then
+      begin
+        Inc(iEnd);
+      end else
+      begin
+        if iStart <> iEnd then
+        begin
+          lSB.Append(Copy(aText, iCopyStart, iStart - iCopyStart + 1));
+          iCopyStart := iEnd;
+          Inc(iEnd);
+          iStart := iEnd;
+        end else
+        begin
+          Inc(iStart);
+          Inc(iEnd);
+        end;
+      end;
+      Inc(i);
+    end;
+    if iCopyStart < iStart then
+    begin
+      lSB.Append(Copy(aText, iCopyStart, iStart - iCopyStart + 1));
+    end;
+    Result := lSB.ToString;
+  finally
+    lSB.Free;
+  end;
 end;
 
 end.
