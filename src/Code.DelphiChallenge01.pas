@@ -26,6 +26,14 @@ implementation
 function Challenge01(const aText:string; const aChar:char): string;
 begin
   Result := '';
+  for var i := 1 to High(aText) do
+    if (aText[i] = aChar) then
+    begin
+      if (aText[i - 1] <> aChar) then
+        Result := Result + aText[i];
+    end
+    else
+      Result := Result + aText[i];
 end;
 
 end.
