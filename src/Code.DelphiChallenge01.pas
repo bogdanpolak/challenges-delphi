@@ -24,8 +24,33 @@ function Challenge01(const aText:string; const aChar:char): string;
 implementation
 
 function Challenge01(const aText:string; const aChar:char): string;
+var
+    lInputStringIndex,
+    lOutputStringIndex: Integer;
+
 begin
-  Result := '';
+  if ((aText.IsEmpty) OR (Length(aText) = 1)) then
+  begin
+    Exit(aText);
+  end;
+
+  SetLength(Result, Length(aText));
+
+  Result[1] := aText[1];
+  lOutputStringIndex := 1;
+  for lInputStringIndex := 2 to Length(aText) do
+  begin
+    if((aText[lInputStringIndex - 1] = aChar) AND (aText[lInputStringIndex] = aChar)) then
+    begin
+      Continue;
+    end;
+
+    Inc(lOutputStringIndex);
+    Result[lOutputStringIndex] := aText[lInputStringIndex];
+  end;
+
+
+  SetLength(Result, lOutputStringIndex);
 end;
 
 end.
