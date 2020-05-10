@@ -23,9 +23,13 @@ function Challenge01(const aText:string; const aChar:char): string;
 
 implementation
 
+uses
+    System.RegularExpressions
+  ;
+
 function Challenge01(const aText:string; const aChar:char): string;
 begin
-  Result := '';
+  Result := TRegEx.Replace(aText, aChar + '+', aChar);
 end;
 
 end.
