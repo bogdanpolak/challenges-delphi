@@ -12,22 +12,21 @@ interface
 {
   Zadaniem jest wydobycie z treści strony https://www.timeanddate.com/
   informacji o tym czy w podanej strefie czasowej wykonuje się przesuniecie
-  czasu podstawowoego (zimowego) na czas letni. Daylight Saving Time
+  czasu podstawowego (zimowego) na czas letni. Daylight Saving Time
 
   Funkcja:
-    * IsDaylightSaving - powinna sprawdzić to dla podanego roku (year) i dla podanefo obszaru (area).
-  Jesli przesuniecie czasu jest aktywne to funckcje:
+    * IsDaylightSaving - powinna sprawdzić to dla podanego roku (year) i dla podanego obszaru (area).
+  Jeśli przesuniecie czasu jest aktywne to funkcje:
     * GetDaylightStartDate
-    * GetDaylightEndDate
-   powinny zwrócić informacje w jakim dniu i o jakiej godzinie następuje
-   przesuniecie czasu.
+    * GetDaylightEndDate   p
+    owinny zwrócić informacje w jakim dniu i o jakiej godzinie następuje przesuniecie czasu.
 
   Dla przykładu przy danych:
     - area: poland/warsaw
     - year: 2015
   Powinna zostać wywołana strona:
-  https://www.timeanddate.com/time/change/poland/warsaw?year=2015
-  i na podstawie analizy treści strony WWW nalezy zwrócić podane wyzej wyniki
+    https://www.timeanddate.com/time/change/poland/warsaw?year=2015
+  i na podstawie analizy treści strony WWW należy zwrócić podane wyżej wyniki
 
   Aby nie powtarzać wielokrotnego pobierania danych dla tych samych stron
   należy przechować poprzednie wyniki, aby nie pobierać wielokrotnie tych
@@ -35,9 +34,9 @@ interface
 
   Uwaga!
 
-  Wymagane jest użucie `TMyHttpGet.GetWebsiteContent` do pobrania zawartości strony
+  Wymagane jest użycie `TMyHttpGet.GetWebsiteContent` do pobrania zawartości strony
   Przykład wywołania:
-    aHtmlPageContent := TMyHttpGet.GetWebsiteContent('http://delphi.pl/');
+    aHtmlPageContent := TMyHttpGet.GetWebsiteContent(‘http://delphi.pl/’);
 }
 
 function IsDaylightSaving(const area: string; year: word): boolean;
