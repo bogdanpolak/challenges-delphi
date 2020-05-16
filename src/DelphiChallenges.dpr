@@ -11,8 +11,8 @@ uses
   DUnitX.Loggers.Console,
   DUnitX.Loggers.Xml.NUnit,
   DUnitX.TestFramework,
-  Test.DelphiChallenge01 in 'Test.DelphiChallenge01.pas',
-  Code.DelphiChallenge01 in 'Code.DelphiChallenge01.pas';
+  Code01.RemoveRepetitions in 'previous\01-remove-repetitons\Code01.RemoveRepetitions.pas',
+  Test01.RemoveRepetitions in 'previous\01-remove-repetitons\Test01.RemoveRepetitions.pas';
 
 var
   runner : ITestRunner;

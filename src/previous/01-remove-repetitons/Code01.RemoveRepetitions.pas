@@ -1,10 +1,11 @@
-﻿unit Code.DelphiChallenge01;
+﻿unit Code01.RemoveRepetitions;
 
 interface
 
 {
-@subject: Delphi Challenge #01
-@author: Jacke Laskiwski
+@theme: Delphi Challenge
+@subject: #01 Remove Character Repetitions
+@author: Jacek Laskowski
 @date: 2020-05-09 21:00
 
 Funkcja przyjmująca na wejściu dwa parametry:

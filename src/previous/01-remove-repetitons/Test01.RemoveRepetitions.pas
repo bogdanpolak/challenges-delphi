@@ -1,9 +1,10 @@
-﻿unit Test.DelphiChallenge01;
+﻿unit Test01.RemoveRepetitions;
 
 interface
 uses
   DUnitX.TestFramework;
 
+{$M+}
 type
 
   [TestFixture]
@@ -14,7 +15,7 @@ type
 
 implementation
 
-uses Code.DelphiChallenge01;
+uses Code01.RemoveRepetitions;
 
 procedure TDelphiChallenge01.Test1;
 begin
