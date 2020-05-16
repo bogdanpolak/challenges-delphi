@@ -34,6 +34,10 @@ begin
   aSSLIOHandlerSocketOpenSSL.SSLOptions.Method := sslvTLSv1_2;
   aSSLIOHandlerSocketOpenSSL.SSLOptions.Mode := sslmUnassigned;
   IdHTTP.IOHandler := aSSLIOHandlerSocketOpenSSL;
+  IdHTTP.Request.UserAgent := 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) Gecko/20100101 Firefox/12.0';
+  IdHTTP.Request.CharSet := 'utf-8';
+  IdHTTP.Request.ContentEncoding := 'utf-8';
+  IdHTTP.Request.ContentType := 'application/x-www-form-urlencoded';
   try
     Result := IdHTTP.Get(aUrl);
     CounterHttpCalls := CounterHttpCalls + 1;
