@@ -12,7 +12,10 @@ uses
   DUnitX.Loggers.Xml.NUnit,
   DUnitX.TestFramework,
   Code01.RemoveRepetitions in 'previous\01-remove-repetitons\Code01.RemoveRepetitions.pas',
-  Test01.RemoveRepetitions in 'previous\01-remove-repetitons\Test01.RemoveRepetitions.pas';
+  Test01.RemoveRepetitions in 'previous\01-remove-repetitons\Test01.RemoveRepetitions.pas',
+  Code02.DaylightTimeZone in 'Code02.DaylightTimeZone.pas',
+  Test02.DaylightTimeZone in 'Test02.DaylightTimeZone.pas',
+  Code02.HttpGet in 'Code02.HttpGet.pas';
 
 var
   runner : ITestRunner;
