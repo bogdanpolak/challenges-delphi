@@ -10,4 +10,3 @@ del *.stat
 
 del *.dcu
 del *.exe
-del *.dll

@@ -13,6 +13,11 @@ implementation
 
 uses
   IdAuthentication,
+  IdIOHandler,
+  IdIOHandlerSocket,
+  IdIOHandlerStack,
+  IdSSL,
+  IdSSLOpenSSL,
   IdBaseComponent,
   IdComponent,
   IdTCPConnection,
@@ -22,8 +27,13 @@ uses
 class function TMyHttpGet.GetWebsiteContent(aUrl: string): string;
 var
   IdHTTP: TIdHTTP;
+  aSSLIOHandlerSocketOpenSSL: TIdSSLIOHandlerSocketOpenSSL;
 begin
   IdHTTP := TIdHTTP.Create(nil);
+  aSSLIOHandlerSocketOpenSSL := TIdSSLIOHandlerSocketOpenSSL.Create(IdHTTP);
+  aSSLIOHandlerSocketOpenSSL.SSLOptions.Method := sslvTLSv1_2;
+  aSSLIOHandlerSocketOpenSSL.SSLOptions.Mode := sslmUnassigned;
+  IdHTTP.IOHandler := aSSLIOHandlerSocketOpenSSL;
   try
     Result := IdHTTP.Get(aUrl);
     CounterHttpCalls := CounterHttpCalls + 1;
