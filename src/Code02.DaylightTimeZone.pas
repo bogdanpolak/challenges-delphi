@@ -17,9 +17,9 @@ interface
   Funkcja:
     * IsDaylightSaving - powinna sprawdzić to dla podanego roku (year) i dla podanego obszaru (area).
   Jeśli przesuniecie czasu jest aktywne to funkcje:
-    * GetDaylightStartDate
-    * GetDaylightEndDate   p
-    owinny zwrócić informacje w jakim dniu i o jakiej godzinie następuje przesuniecie czasu.
+    * GetDaylightStart
+    * GetDaylightEnd
+  powinny zwrócić informacje w jakim dniu i o jakiej godzinie następuje przesuniecie czasu.
 
   Dla przykładu przy danych:
     - area: poland/warsaw

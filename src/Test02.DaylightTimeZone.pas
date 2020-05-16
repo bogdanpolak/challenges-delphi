@@ -58,7 +58,7 @@ var
 begin
   TMyHttpGet.CounterHttpCalls := 0;
 
-  dt := GetDaylightStartDate(aArea, aYear);
+  dt := GetDaylightStart(aArea, aYear);
 
   actual := FormatDateTime('yyyy-mm-dd hh:mm', dt);
   Assert.IsTrue(TMyHttpGet.CounterHttpCalls >= 1, StrUseMyHttpGet);
@@ -73,7 +73,7 @@ var
 begin
   TMyHttpGet.CounterHttpCalls := 0;
 
-  dt := GetDaylightEndDate(aArea, aYear);
+  dt := GetDaylightEnd(aArea, aYear);
 
   actual := FormatDateTime('yyyy-mm-dd hh:mm', dt);
   Assert.IsTrue(TMyHttpGet.CounterHttpCalls >= 1, StrUseMyHttpGet);
@@ -89,9 +89,9 @@ begin
   area := 'usa/atlanta';
   year := 1999;
   IsDaylightSaving(area, year);
-  GetDaylightStartDate(area, year);
-  GetDaylightEndDate(area, year);
-  GetDaylightStartDate(area, year);
+  GetDaylightStart(area, year);
+  GetDaylightEnd(area, year);
+  GetDaylightStart(area, year);
   Assert.AreEqual(1, TMyHttpGet.CounterHttpCalls);
 end;
 
