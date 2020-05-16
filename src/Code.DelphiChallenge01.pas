@@ -19,13 +19,51 @@ Przykładowo przekazuję do funkcji łańcuch:
   a funkcja zwraca: "Wlazł kotek na płotek i mruga".
 }
 
-function Challenge01(const aText:string; const aChar:char): string;
+function Challenge01(const aText: string; const aChar: char): string;
 
 implementation
 
-function Challenge01(const aText:string; const aChar:char): string;
+uses
+  System.SysUtils;
+
+function Challenge01(const aText: string; const aChar: char): string;
+var
+  lInputStringIndex,
+  lOutputStringSize: Integer;
+
+  lInputStringPointer,
+  lOutputStringPointer: PChar;
+
 begin
-  Result := '';
+  if (aText.IsEmpty OR (Length(aText) = 1)) then
+  begin
+    Exit(aText);
+  end;
+
+  SetLength(Result, Length(aText));
+  lInputStringPointer := PChar(aText);
+  lOutputStringPointer := PChar(Result);
+  lOutputStringPointer^ := lInputStringPointer^;
+
+  Inc(lInputStringPointer);
+  Inc(lOutputStringPointer);
+
+  for lInputStringIndex := 2 to Length(aText) do
+  begin
+    if(((lInputStringPointer - 1)^ = aChar) AND (lInputStringPointer^ = aChar)) then
+    begin
+      Inc(lInputStringPointer);
+      Continue;
+    end;
+
+    lOutputStringPointer^ := lInputStringPointer^;
+
+    Inc(lInputStringPointer);
+    Inc(lOutputStringPointer);
+  end;
+
+  lOutputStringSize := (Integer(lOutputStringPointer) - Integer(PChar(Result))) div SizeOf(Char);
+  SetLength(Result, lOutputStringSize);
 end;
 
 end.
