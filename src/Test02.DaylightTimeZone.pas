@@ -16,6 +16,8 @@ type
       ' zawartości strony Web';
   published
     [Test]
+    procedure CheckWebSiteStructure_TimeAndDate;
+    [Test]
     [TestCase(' - USA Atlanta - 2021', 'usa/atlanta,2021,true')]
     [TestCase(' - India Bangalore - 1998', 'india/bangalore,1998,false')]
     procedure IsDaylightSavingTime(const aArea: string; const aYear: word;
@@ -43,6 +45,18 @@ uses
   System.DateUtils,
   Code02.DaylightTimeZone,
   Code02.HttpGet;
+
+procedure Test02DaylightTimeZone.CheckWebSiteStructure_TimeAndDate;
+var
+  aHtmlPageContent: string;
+  isContains: Boolean;
+begin
+  aHtmlPageContent := TMyHttpGet.GetWebsiteContent
+    ('https://www.timeanddate.com/time/change/poland/warsaw?year=1998');
+  isContains := aHtmlPageContent.Contains('<p>25 Oct 2020, 03:00</p>');
+  Assert.IsTrue(isContains,
+    'Usupported new page format. Required update');
+end;
 
 procedure Test02DaylightTimeZone.IsDaylightSavingTime(const aArea: string;
   const aYear: word; const aIsDST: boolean);
