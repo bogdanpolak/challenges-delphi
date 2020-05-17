@@ -101,7 +101,7 @@ var
 begin
   TMyHttpGet.CounterHttpCalls := 0;
   area := 'usa/atlanta';
-  year := 1999;
+  year := 1995;
   IsDaylightSaving(area, year);
   GetDaylightStart(area, year);
   GetDaylightEnd(area, year);
