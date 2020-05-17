@@ -28,7 +28,7 @@ type
     [Test]
     [TestCase(' - USA Atlanta - 1999', 'usa/atlanta,1999,1999-10-31 02:00')]
     [TestCase(' - Poland Warsaw - 2015', 'poland/warsaw,2015,2015-10-25 03:00')]
-    [TestCase(' - USA Atlanta - 2021', 'usa/atlanta,2021,2021-11-17 02:00')]
+    [TestCase(' - USA Atlanta - 2021', 'usa/atlanta,2021,2021-11-07 02:00')]
     procedure Test_GetDaylightEndDate(const aArea: string; const aYear: word;
       const aExpectedTime: string);
     [Test]
