@@ -11,9 +11,6 @@ type
 
   [TestFixture]
   Test02DaylightTimeZone = class(TObject)
-  private const
-    StrUseMyHttpGet = 'Użyj TMyHttpGet.GetWebsiteContent do pobrania' +
-      ' zawartości strony Web';
   published
     [Test]
     procedure CheckWebSiteStructure_TimeAndDate;
@@ -55,7 +52,7 @@ begin
     ('https://www.timeanddate.com/time/change/poland/warsaw?year=1998');
   isContains := aHtmlPageContent.Contains('<p>25 Oct 2020, 03:00</p>');
   Assert.IsTrue(isContains,
-    'Usupported new page format. Required update');
+    'Unsupported timeanddate web page structure. Parser requires update');
 end;
 
 procedure Test02DaylightTimeZone.IsDaylightSavingTime(const aArea: string;
@@ -75,7 +72,6 @@ begin
   dt := GetDaylightStart(aArea, aYear);
 
   actual := FormatDateTime('yyyy-mm-dd hh:mm', dt);
-  Assert.IsTrue(TMyHttpGet.CounterHttpCalls >= 1, StrUseMyHttpGet);
   Assert.AreEqual(aExpectedTime, actual);
 end;
 
@@ -90,7 +86,6 @@ begin
   dt := GetDaylightEnd(aArea, aYear);
 
   actual := FormatDateTime('yyyy-mm-dd hh:mm', dt);
-  Assert.IsTrue(TMyHttpGet.CounterHttpCalls >= 1, StrUseMyHttpGet);
   Assert.AreEqual(aExpectedTime, actual);
 end;
 
