@@ -38,6 +38,7 @@ begin
   IdHTTP.Request.CharSet := 'utf-8';
   IdHTTP.Request.ContentEncoding := 'utf-8';
   IdHTTP.Request.ContentType := 'application/x-www-form-urlencoded';
+  IdHTTP.Request.AcceptLanguage := 'en-US';
   try
     Result := IdHTTP.Get(aUrl);
     CounterHttpCalls := CounterHttpCalls + 1;
