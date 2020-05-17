@@ -19,6 +19,7 @@ uses Code01.RemoveRepetitions;
 
 procedure TDelphiChallenge01.Test1;
 begin
+  aChallengeParticipants := cpLukaszHamera;
   Assert.AreEqual (
     'Wlazł kotek na płotek i mruga',
     Challenge01('Wlazł koooootek na płoooooootek i mruga', 'o'));
