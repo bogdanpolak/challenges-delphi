@@ -210,16 +210,13 @@ end;
 
 class function TDaylightSavingMatrix.ImportPeriod(const aArea: string; aYear: Word): TDayligtSavingPeriod;
 var
-  i: Integer;
   lBody: string;
   lDate: string;
   lEndDateTime: TDateTime;
   lMatches: TMatchCollection;
-  lRegex: TRegEx;
   lStartDateTime: TDateTime;
   lTime: string;
   lURL : string;
-  s: string;
 begin
   lURL := Format(cURL, [aArea, aYear]);
   lBody := TMyHttpGet.GetWebsiteContent(lURL);
