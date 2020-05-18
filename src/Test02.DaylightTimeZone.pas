@@ -1,4 +1,4 @@
-﻿    unit Test02.DaylightTimeZone;
+﻿unit Test02.DaylightTimeZone;
 
 interface
 
@@ -109,4 +109,3 @@ initialization
 TDUnitX.RegisterTestFixture(Test02DaylightTimeZone);
 
 end.
-
