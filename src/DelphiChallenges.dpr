@@ -15,7 +15,12 @@ uses
   Test01.RemoveRepetitions in 'previous\01-remove-repetitons\Test01.RemoveRepetitions.pas',
   Code02.DaylightTimeZone in 'Code02.DaylightTimeZone.pas',
   Test02.DaylightTimeZone in 'Test02.DaylightTimeZone.pas',
-  Code02.HttpGet in 'Code02.HttpGet.pas';
+  Code02.HttpGet in 'Code02.HttpGet.pas',
+  TimeAndDate in 'TimeAndDate\TimeAndDate.pas',
+  HttpCache in 'TimeAndDate\HttpCache.pas',
+  HtmlDoc in 'TimeAndDate\HtmlDoc.pas',
+  WebSite in 'TimeAndDate\WebSite.pas',
+  Utils in 'TimeAndDate\Utils.pas';
 
 var
   runner : ITestRunner;

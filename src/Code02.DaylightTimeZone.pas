@@ -47,21 +47,22 @@ implementation
 
 uses
   System.SysUtils,
-  Code02.HttpGet;
+  Code02.HttpGet,
+  TimeAndDate;
 
 function IsDaylightSaving(const area: string; year: word): boolean;
 begin
-  Result:= False;
+  Result := BuildTimeAndDateWebSite.IsDaylightSaving(area, year);
 end;
 
 function GetDaylightStart(const area: string; year: word): TDateTime;
 begin
-  Result := 0;
+  Result := BuildTimeAndDateWebSite.GetDaylightStart(area, year);
 end;
 
 function GetDaylightEnd(const area: string; year: word): TDateTime;
 begin
-  Result := 0;
+  Result := BuildTimeAndDateWebSite.GetDaylightEnd(area, year);
 end;
 
 end.
