@@ -6,10 +6,10 @@ uses
   System.json;
 
 {
-@theme: Delphi Challenge
-@subject: #02 Daylight Time Zone
-@author: Bogdan Polak
-@date: 2020-05-16 21:00
+  @theme: Delphi Challenge
+  @subject: #02 Daylight Time Zone
+  @author: Bogdan Polak
+  @date: 2020-05-16 21:00
 }
 
 {
@@ -18,17 +18,17 @@ uses
   czasu podstawowego (zimowego) na czas letni. Daylight Saving Time
 
   Funkcja:
-    * IsDaylightSaving - powinna sprawdzić to dla podanego roku (year) i dla podanego obszaru (area).
+  * IsDaylightSaving - powinna sprawdzić to dla podanego roku (year) i dla podanego obszaru (area).
   Jeśli przesuniecie czasu jest aktywne to funkcje:
-    * GetDaylightStart
-    * GetDaylightEnd
+  * GetDaylightStart
+  * GetDaylightEnd
   powinny zwrócić informacje w jakim dniu i o jakiej godzinie następuje przesuniecie czasu.
 
   Dla przykładu przy danych:
-    - area: poland/warsaw
-    - year: 2015
+  - area: poland/warsaw
+  - year: 2015
   Powinna zostać wywołana strona:
-    https://www.timeanddate.com/time/change/poland/warsaw?year=2015
+  https://www.timeanddate.com/time/change/poland/warsaw?year=2015
   i na podstawie analizy treści strony WWW należy zwrócić podane wyżej wyniki
 
   Aby nie powtarzać wielokrotnego pobierania danych dla tych samych stron
@@ -39,30 +39,30 @@ uses
 
   Wymagane jest użycie `TMyHttpGet.GetWebsiteContent` do pobrania zawartości strony
   Przykład wywołania:
-    aHtmlPageContent := TMyHttpGet.GetWebsiteContent(‘http://delphi.pl/’);
+  aHtmlPageContent := TMyHttpGet.GetWebsiteContent(‘http://delphi.pl/’);
 }
 
-function IsDaylightSaving(const area: string; year: word): boolean;
-function GetDaylightStart(const area: string; year: word): TDateTime;
-function GetDaylightEnd(const area: string; year: word): TDateTime;
-function MakeValidUrl(const area: string; year: word): string;
-function GetPageContent(const area: string; year: word): string;
-procedure SaveDataToRecords(const area: string; year: word);
+function IsDaylightSaving(const area: string; year: Word): boolean;
+function GetDaylightStart(const area: string; year: Word): TDateTime;
+function GetDaylightEnd(const area: string; year: Word): TDateTime;
+function MakeValidUrl(const area: string; year: Word): string;
+function GetPageContent(const area: string; year: Word): string;
+procedure SaveDataToRecords(const area: string; year: Word);
 function DataInRecords(const data: string): TJSONObject;
-function GetDaylightFromRecord(const area: string; year: word): Boolean;
-function GetDaylightStartFromRecord(const area: string; year: word): TDateTime;
-function GetDaylightEndFromRecord(const area: string; year: word): TDateTime;
+function GetDaylightFromRecord(const area: string; year: Word): boolean;
+//function GetDaylightStartFromRecord(const area: string; year: Word): TDateTime;
+//function GetDaylightEndFromRecord(const area: string; year: Word): TDateTime;
 function JsonFromDB: TJSONObject;
-function PageStringToDateTime(const date : string; year : Word): TDateTime;
-
+function PageStringToDateTime(const date: string; year: Word): TDateTime;
+function GetDaylightDateFromRecord(const area: string; year: Word; param: string): TDateTime;
 
 implementation
 
 uses
   System.SysUtils,
-  system.ioutils,
-  system.dateutils,
-  system.strutils,
+  System.IOUtils,
+  System.DateUtils,
+  System.StrUtils,
   Code02.HttpGet;
 
 const
@@ -73,20 +73,36 @@ const
   cJsonStart = 'start';
   cJsonEnd = 'end';
 
-function PageStringToDateTime(const date : string; year : Word): TDateTime;
+function GetDaylightDateFromRecord(const area: string; year: Word; param: string): TDateTime;
 var
-  lDateParts : TArray<string>;
-  month, day, hour, minute : Integer;
-  fs: TFormatSettings;
+  lJsonObj: TJSONObject;
+  lDateUnix: Integer;
 
 begin
-  fs := TFormatSettings.Create('en-US');
+  Result := 0;
+  lJsonObj := DataInRecords(area + year.ToString);
+  if Assigned(lJsonObj) then
+  begin
+    lJsonObj := JsonFromDB;
+    lDateUnix := lJsonObj.GetValue<Integer>(area + year.ToString + '[0].' + param);
+    Result := UnixToDateTime(lDateUnix);
+  end;
+end;
+
+function PageStringToDateTime(const date: string; year: word): TDateTime;
+var
+  lDateParts: TArray<string>;
+  lMonth, lDay, lHour, lMinute: word;
+  lFs: TFormatSettings;
+
+begin
+  lFs := TFormatSettings.Create('en-US');
   lDateParts := SplitString(date, ' ');
-  month := IndexText(lDateParts[2],fs.LongMonthNames) + 1;
-  day := lDateParts[1].ToInteger;
-  hour := StrToInt(Copy(ldateparts[3], 1, 2));
-  minute := StrToInt(Copy(ldateparts[3], 4, 2));
-  Result := EncodeDateTime(year, month, day, hour, minute, 0, 0);
+  lMonth := IndexText(lDateParts[2], lFs.LongMonthNames) + 1;
+  lDay := lDateParts[1].ToInteger;
+  lHour := StrToInt(Copy(lDateParts[3], 1, 2));
+  lMinute := StrToInt(Copy(lDateParts[3], 4, 2));
+  Result := EncodeDateTime(year, lMonth, lDay, lHour, lMinute, 0, 0);
 end;
 
 function JsonFromDB: TJSONObject;
@@ -96,9 +112,9 @@ begin
     Result := TJSONObject(TJSONObject.ParseJSONValue(TFile.ReadAllText(cDBfile)));
 end;
 
-function GetDaylightFromRecord(const area: string; year: word): Boolean;
+function GetDaylightFromRecord(const area: string; year: word): boolean;
 var
-  lJsonObj : TJSONObject;
+  lJsonObj: TJSONObject;
 
 begin
   Result := False;
@@ -106,122 +122,115 @@ begin
   if Assigned(lJsonObj) then
   begin
     lJsonObj := JsonFromDB;
-    Result := lJsonObj.GetValue<Boolean>(area + year.ToString + '[0].' + cJsonDTS);
+    Result := lJsonObj.GetValue<boolean>(area + year.ToString + '[0].' + cJsonDTS);
   end;
 end;
 
-function GetDaylightStartFromRecord(const area: string; year: word): TDateTime;
-var
-  lJsonObj : TJSONObject;
-  ldateStr : string;
-
-begin
-  Result := 0;
-  lJsonObj := DataInRecords(area + year.ToString);
-  if Assigned(lJsonObj) then
-  begin
-    lJsonObj := JsonFromDB;
-    ldateStr := lJsonObj.GetValue<string>(area + year.ToString + '[0].' + cJsonStart);
-    Result := UnixToDateTime(StrToInt(ldateStr));
-  end;
-end;
-
-function GetDaylightEndFromRecord(const area: string; year: word): TDateTime;
-var
-  lJsonObj : TJSONObject;
-  ldateStr : string;
-
-begin
-  Result := 0;
-  lJsonObj := DataInRecords(area + year.ToString);
-  if Assigned(lJsonObj) then
-  begin
-    lJsonObj := JsonFromDB;
-    ldateStr := lJsonObj.GetValue<string>(area + year.ToString + '[0].' + cJsonEnd);
-    Result := UnixToDateTime(StrToInt(ldateStr));
-  end;
-end;
+//function GetDaylightStartFromRecord(const area: string; year: word): TDateTime;
+//var
+//  lJsonObj: TJSONObject;
+//  lDateUnix: Integer;
+//
+//begin
+//  Result := 0;
+//  lJsonObj := DataInRecords(area + year.ToString);
+//  if Assigned(lJsonObj) then
+//  begin
+//    lJsonObj := JsonFromDB;
+//    lDateUnix := lJsonObj.GetValue<Integer>(area + year.ToString + '[0].' + cJsonStart);
+//    Result := UnixToDateTime(lDateUnix);
+//  end;
+//end;
+//
+//function GetDaylightEndFromRecord(const area: string; year: word): TDateTime;
+//var
+//  lJsonObj: TJSONObject;
+//  lDateUnix: Integer;
+//
+//begin
+//  Result := 0;
+//  lJsonObj := DataInRecords(area + year.ToString);
+//  if Assigned(lJsonObj) then
+//  begin
+//    lJsonObj := JsonFromDB;
+//    lDateUnix := lJsonObj.GetValue<Integer>(area + year.ToString + '[0].' + cJsonEnd);
+//    Result := UnixToDateTime(lDateUnix);
+//  end;
+//end;
 
 function DataInRecords(const data: string): TJSONObject;
 var
-  lJsonObj : TJSONObject;
+  lJsonObj: TJSONObject;
 
 begin
   lJsonObj := JsonFromDB;
-
   Result := TJSONObject(lJsonObj.FindValue(data));
   lJsonObj.Free;
 end;
 
 procedure SaveDataToRecords(const area: string; year: word);
 var
-  lJsonObj, lJsonData : TJSONObject;
-  lJsonArray : TJSONArray;
-  lPageContent : string;
-  valDTS : Boolean;
-  valStart, valEnd : Integer;
-
-  startstr, endstr : Integer;
-  tmpdates : string;
-  str1, str2 : string;
+  lJsonObj, lJsonData: TJSONObject;
+  lJsonArray: TJSONArray;
+  lPageContent: string;
+  lvalDTS: boolean;
+  lStartDate, lEndDate: Integer;
+  lStartPos, lEndPos: Integer;
+  lTmpDatesStr: string;
+  lStartDateStr, lEndDateStr: string;
 
 begin
   lJsonObj := DataInRecords(area + year.ToString);
   if lJsonObj = nil then
   begin
     lPageContent := GetPageContent(area, year);
-    startstr := Pos('</td></tr><tr ><th>'+year.ToString+'</th><td>',lPageContent);
-    startstr := startstr + 32;
-    endstr := Pos('</td></tr>', lPageContent, startstr);
-    if (startstr < endstr) and (endstr > 1) then
+    lStartPos := Pos('</td></tr><tr ><th>' + year.ToString + '</th><td>', lPageContent);
+    lStartPos := lStartPos + 32;
+    lEndPos := Pos('</td></tr>', lPageContent, lStartPos);
+    if (lStartPos < lEndPos) and (lEndPos > 1) then
     begin
-      tmpdates := Copy(lPageContent, startstr, endstr - startstr);
-      if (tmpdates[1] <> '<') then
+      lTmpDatesStr := Copy(lPageContent, lStartPos, lEndPos - lStartPos);
+      lTmpDatesStr := StringReplace(lTmpDatesStr, ',', '', [rfReplaceAll]);
+      if (lTmpDatesStr[1] <> '<') then
       begin
-        tmpdates := StringReplace(tmpdates, ',', '', [rfReplaceAll]);
-        startstr := Pos('</td><td>', tmpdates);
-        startstr := startstr + 9;
-        endstr := Pos('>', tmpdates, startstr);
-        str1 := Copy(tmpdates, 1, startstr - 10);
-        if endstr = 0 then
-          Delete(tmpdates, 1, Pos('>', tmpdates))
+        lStartPos := Pos('</td><td>', lTmpDatesStr);
+        lStartPos := lStartPos + 9;
+        lEndPos := Pos('>', lTmpDatesStr, lStartPos);
+        lStartDateStr := Copy(lTmpDatesStr, 1, lStartPos - 10);
+        if lEndPos = 0 then
+          Delete(lTmpDatesStr, 1, Pos('>', lTmpDatesStr))
         else
-          Delete(tmpdates, 1, endstr);
-        str2 := tmpdates;
+          Delete(lTmpDatesStr, 1, lEndPos);
       end
       else
       begin
-        startstr := Pos('>', tmpdates);
-        startstr := startstr;
-        endstr := Pos('</', tmpdates, startstr);
-        if (startstr < endstr) then
-          Delete(tmpdates, 1, startstr);
-
-        tmpdates := StringReplace(tmpdates, ',', '', [rfReplaceAll]);
-        startstr := Pos('</', tmpdates);
-        endstr := Pos('<td>', tmpdates, startstr);
-        str1 := Copy(tmpdates, 1, startstr - 1);
-        Delete(tmpdates, 1, endstr + 3);
-        str2 := tmpdates;
+        lStartPos := Pos('>', lTmpDatesStr);
+        lEndPos := Pos('</', lTmpDatesStr, lStartPos);
+        if (lStartPos < lEndPos) then
+          Delete(lTmpDatesStr, 1, lStartPos);
+        lStartPos := Pos('</', lTmpDatesStr);
+        lEndPos := Pos('<td>', lTmpDatesStr, lStartPos);
+        lStartDateStr := Copy(lTmpDatesStr, 1, lStartPos - 1);
+        Delete(lTmpDatesStr, 1, lEndPos + 3);
       end;
+      lEndDateStr := lTmpDatesStr;
     end;
 
-
-    valDTS := Pos(cNotDTSdiv, lPageContent) = 0;
-    if str1.IsEmpty then
-      valStart := 0
+    lvalDTS := Pos(cNotDTSdiv, lPageContent) = 0;
+    if lStartDateStr.IsEmpty then
+      lStartDate := 0
     else
-      valStart := DateTimeToUnix(PageStringToDateTime(str1, year));
+      lStartDate := DateTimeToUnix(PageStringToDateTime(lStartDateStr, year));
 
-    if str2.IsEmpty then
-      valEnd := 0
+    if lEndDateStr.IsEmpty then
+      lEndDate := 0
     else
-      valEnd := DateTimeToUnix(PageStringToDateTime(str2, year));
+      lEndDate := DateTimeToUnix(PageStringToDateTime(lEndDateStr, year));
 
     lJsonData := TJSONObject.Create;
-    lJsonData.AddPair(cJsonStart, valStart.ToString);
-    lJsonData.AddPair(cJsonEnd, valEnd.ToString);
-    lJsonData.AddPair(cJsonDTS, valDTS.ToString);
+    lJsonData.AddPair(cJsonStart, lStartDate.ToString);
+    lJsonData.AddPair(cJsonEnd, lEndDate.ToString);
+    lJsonData.AddPair(cJsonDTS, lvalDTS.ToString);
 
     lJsonArray := TJSONArray.Create;
     lJsonArray.Add(lJsonData);
@@ -232,6 +241,7 @@ begin
     TFile.WriteAllText(cDBfile, lJsonObj.ToString);
     lJsonObj.Free;
   end;
+
 end;
 
 function GetPageContent(const area: string; year: word): string;
@@ -244,7 +254,7 @@ begin
   Result := Format(cUrlStr, [area, year]);
 end;
 
-function IsDaylightSaving(const area: string; year: word): Boolean;
+function IsDaylightSaving(const area: string; year: word): boolean;
 begin
   SaveDataToRecords(area, year);
 
@@ -255,17 +265,18 @@ function GetDaylightStart(const area: string; year: word): TDateTime;
 begin
   SaveDataToRecords(area, year);
 
-  Result := GetDaylightStartFromRecord(area, year);
+  Result := GetDaylightDateFromRecord(area, year, cJsonStart);
 end;
 
 function GetDaylightEnd(const area: string; year: word): TDateTime;
 begin
   SaveDataToRecords(area, year);
 
-  Result := GetDaylightEndFromRecord(area, year);
+  Result := GetDaylightDateFromRecord(area, year, cJsonEnd);
 end;
 
 initialization
+
 begin
   DeleteFile(cDBfile);
 end;

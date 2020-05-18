@@ -1,7 +1,5 @@
 program DelphiChallenges;
 
-//{$define TESTINSIGHT}
-
 {$IFNDEF TESTINSIGHT}
 {$APPTYPE CONSOLE}
 {$ENDIF}{$STRONGLINKTYPES ON}
