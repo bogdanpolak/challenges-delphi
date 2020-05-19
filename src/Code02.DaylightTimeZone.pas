@@ -50,8 +50,6 @@ function GetPageContent(const area: string; year: Word): string;
 procedure SaveDataToRecords(const area: string; year: Word);
 function DataInRecords(const data: string): TJSONObject;
 function GetDaylightFromRecord(const area: string; year: Word): boolean;
-//function GetDaylightStartFromRecord(const area: string; year: Word): TDateTime;
-//function GetDaylightEndFromRecord(const area: string; year: Word): TDateTime;
 function JsonFromDB: TJSONObject;
 function PageStringToDateTime(const date: string; year: Word): TDateTime;
 function GetDaylightDateFromRecord(const area: string; year: Word; param: string): TDateTime;
@@ -125,38 +123,6 @@ begin
     Result := lJsonObj.GetValue<boolean>(area + year.ToString + '[0].' + cJsonDTS);
   end;
 end;
-
-//function GetDaylightStartFromRecord(const area: string; year: word): TDateTime;
-//var
-//  lJsonObj: TJSONObject;
-//  lDateUnix: Integer;
-//
-//begin
-//  Result := 0;
-//  lJsonObj := DataInRecords(area + year.ToString);
-//  if Assigned(lJsonObj) then
-//  begin
-//    lJsonObj := JsonFromDB;
-//    lDateUnix := lJsonObj.GetValue<Integer>(area + year.ToString + '[0].' + cJsonStart);
-//    Result := UnixToDateTime(lDateUnix);
-//  end;
-//end;
-//
-//function GetDaylightEndFromRecord(const area: string; year: word): TDateTime;
-//var
-//  lJsonObj: TJSONObject;
-//  lDateUnix: Integer;
-//
-//begin
-//  Result := 0;
-//  lJsonObj := DataInRecords(area + year.ToString);
-//  if Assigned(lJsonObj) then
-//  begin
-//    lJsonObj := JsonFromDB;
-//    lDateUnix := lJsonObj.GetValue<Integer>(area + year.ToString + '[0].' + cJsonEnd);
-//    Result := UnixToDateTime(lDateUnix);
-//  end;
-//end;
 
 function DataInRecords(const data: string): TJSONObject;
 var
@@ -257,21 +223,18 @@ end;
 function IsDaylightSaving(const area: string; year: word): boolean;
 begin
   SaveDataToRecords(area, year);
-
   Result := GetDaylightFromRecord(area, year);
 end;
 
 function GetDaylightStart(const area: string; year: word): TDateTime;
 begin
   SaveDataToRecords(area, year);
-
   Result := GetDaylightDateFromRecord(area, year, cJsonStart);
 end;
 
 function GetDaylightEnd(const area: string; year: word): TDateTime;
 begin
   SaveDataToRecords(area, year);
-
   Result := GetDaylightDateFromRecord(area, year, cJsonEnd);
 end;
 
