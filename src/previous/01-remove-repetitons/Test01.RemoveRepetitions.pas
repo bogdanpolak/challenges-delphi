@@ -12,7 +12,7 @@ type
   [TestFixture]
   TDelphiChallenge01 = class(TObject)
   private
-    procedure RunTest(aChallengeParticipants: TChallengeParticipants);
+    procedure RunTest(aParticipants: TChallengeParticipants);
   published
     procedure Challenge01_LukaszHamera;
     procedure Challenge01_JacekLaskowski;
@@ -25,9 +25,9 @@ type
 implementation
 
 
-procedure TDelphiChallenge01.RunTest(aChallengeParticipants: TChallengeParticipants);
+procedure TDelphiChallenge01.RunTest(aParticipants: TChallengeParticipants);
 begin
-  aChallengeParticipants := cpLukaszHamera;
+  aChallengeParticipants := aParticipants;
   Assert.AreEqual (
     'Wlazł kotek na płotek i mruga',
     Challenge01('Wlazł koooootek na płoooooootek i mruga', 'o'));

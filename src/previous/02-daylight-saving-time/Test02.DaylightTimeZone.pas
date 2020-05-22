@@ -40,7 +40,6 @@ implementation
 uses
   System.SysUtils,
   System.DateUtils,
-  Code02.DaylightTimeZone,
   Code02.HttpGet,
   Code02.Clarc1984.DaylightTimeZone,
   Code02.Jacek.DaylightTimeZone,
@@ -59,6 +58,7 @@ var
 
 function IsDaylightSaving(const area: string; year: Word): boolean;
 begin
+  Result:=False;
   case CurrentParticipants of
     cpJacekLaskowski:
       Result := Code02.Jacek.DaylightTimeZone.IsDaylightSaving(area, year);
@@ -73,6 +73,7 @@ end;
 
 function GetDaylightStart(const area: string; year: Word): TDateTime;
 begin
+  Result:=0;
   case CurrentParticipants of
     cpJacekLaskowski:
       Result := Code02.Jacek.DaylightTimeZone.GetDaylightStart(area, year);
@@ -87,6 +88,7 @@ end;
 
 function GetDaylightEnd(const area: string; year: Word): TDateTime;
 begin
+  Result:=0;
   case CurrentParticipants of
     cpJacekLaskowski:
       Result := Code02.Jacek.DaylightTimeZone.GetDaylightEnd(area, year);

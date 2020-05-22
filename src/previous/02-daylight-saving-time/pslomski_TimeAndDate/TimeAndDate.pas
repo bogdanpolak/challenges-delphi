@@ -118,6 +118,7 @@ var
   ArrIter: IStrArrayIterator;
   Line: string;
 begin
+  Result := 0;
   ArrIter := BuildStrArrayIteratorNonEmptyLines(SplitString(Text, sLineBreak));
   while ArrIter.Next(Line) do begin
     if ContainsText(Line, FindText) then begin
