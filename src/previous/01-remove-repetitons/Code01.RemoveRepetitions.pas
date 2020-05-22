@@ -21,8 +21,13 @@ Przykładowo przekazuję do funkcji łańcuch:
 }
 
 type
-  TChallengeParticipants = (cpLukaszHamera, cpJacekLaskowski, cpClarc1984,
-    cpPiotrSlomski, cpWldekGorajek, cpOngakw);
+  TChallengeParticipants = (
+    cpLukaszHamera,     // LukasHamera - LukaszHamera
+    cpJacekLaskowski,   // jaclas - Jacek Laskowski
+    cpLukaszKotynski,   // Clarc1984 - Łukasz Kotyński
+    cpPiotrSlomski,     // pslomski - Piotr Słomski
+    cpWaldekGorajek,    // wgorajek - Waldek Gorajek
+    cpOngakw);          // ???
 
 var
   aChallengeParticipants: TChallengeParticipants;
@@ -220,11 +225,11 @@ begin
       Result := Challenge01_LukaszHamera(aText, aChar);
     cpJacekLaskowski:
       Result := Challenge01_JacekLaskowski(aText, aChar);
-    cpClarc1984:
+    cpLukaszKotynski:
       Result := Challenge01_Clarc1984(aText, aChar);
     cpPiotrSlomski:
       Result := Challenge01_PiotrSlomski(aText, aChar);
-    cpWldekGorajek:
+    cpWaldekGorajek:
       Result := Challenge01_WaldekGorajek(aText, aChar);
     cpOngakw:
       Result := Challenge01_ongakw(aText, aChar);
