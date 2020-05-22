@@ -13,9 +13,17 @@ uses
   DUnitX.TestFramework,
   Code01.RemoveRepetitions in 'previous\01-remove-repetitons\Code01.RemoveRepetitions.pas',
   Test01.RemoveRepetitions in 'previous\01-remove-repetitons\Test01.RemoveRepetitions.pas',
-  Code02.DaylightTimeZone in 'Code02.DaylightTimeZone.pas',
-  Test02.DaylightTimeZone in 'Test02.DaylightTimeZone.pas',
-  Code02.HttpGet in 'Code02.HttpGet.pas';
+  Test02.DaylightTimeZone in 'previous\02-daylight-saving-time\Test02.DaylightTimeZone.pas',
+  Code02.HttpGet in 'previous\02-daylight-saving-time\Code02.HttpGet.pas',
+  Code02.Clarc1984.DaylightTimeZone in 'previous\02-daylight-saving-time\Code02.Clarc1984.DaylightTimeZone.pas',
+  Code02.Jacek.DaylightTimeZone in 'previous\02-daylight-saving-time\Code02.Jacek.DaylightTimeZone.pas',
+  Code02.Ongakw.DaylightTimeZone in 'previous\02-daylight-saving-time\Code02.Ongakw.DaylightTimeZone.pas',
+  Code02.pslomski.DaylightTimeZone in 'previous\02-daylight-saving-time\Code02.pslomski.DaylightTimeZone.pas',
+  HtmlDoc in 'previous\02-daylight-saving-time\pslomski_TimeAndDate\HtmlDoc.pas',
+  HttpCache in 'previous\02-daylight-saving-time\pslomski_TimeAndDate\HttpCache.pas',
+  TimeAndDate in 'previous\02-daylight-saving-time\pslomski_TimeAndDate\TimeAndDate.pas',
+  Utils in 'previous\02-daylight-saving-time\pslomski_TimeAndDate\Utils.pas',
+  WebSite in 'previous\02-daylight-saving-time\pslomski_TimeAndDate\WebSite.pas';
 
 var
   runner : ITestRunner;
