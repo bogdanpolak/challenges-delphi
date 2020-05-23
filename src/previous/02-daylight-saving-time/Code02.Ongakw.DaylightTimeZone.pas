@@ -47,21 +47,43 @@ implementation
 
 uses
   System.SysUtils,
-  Code02.HttpGet;
+  Code02.HttpGet,
+  Code02.Ongakw.Czas_Zmiana;
 
 function IsDaylightSaving(const area: string; year: word): boolean;
+var
+  aCzasZmiana: TCzas_Zmiana;
 begin
-  Result:= False;
+  aCzasZmiana := TCzas_Zmiana.Create;
+  try
+    Result := aCzasZmiana.IsDaylightSaving(area,year);
+  finally
+    aCzasZmiana.Free;
+  end;
 end;
 
 function GetDaylightStart(const area: string; year: word): TDateTime;
+var
+  aCzasZmiana: TCzas_Zmiana;
 begin
-  Result := 0;
+  aCzasZmiana := TCzas_Zmiana.Create;
+  try
+    Result := aCzasZmiana.GetDaylightStart(area,year);
+  finally
+    aCzasZmiana.Free;
+  end;
 end;
 
 function GetDaylightEnd(const area: string; year: word): TDateTime;
+var
+  aCzasZmiana: TCzas_Zmiana;
 begin
-  Result := 0;
+  aCzasZmiana := TCzas_Zmiana.Create;
+  try
+    Result := aCzasZmiana.GetDaylightEnd(area,year);
+  finally
+    aCzasZmiana.Free;
+  end;
 end;
 
 end.

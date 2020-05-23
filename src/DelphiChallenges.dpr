@@ -23,7 +23,8 @@ uses
   HttpCache in 'previous\02-daylight-saving-time\pslomski_TimeAndDate\HttpCache.pas',
   TimeAndDate in 'previous\02-daylight-saving-time\pslomski_TimeAndDate\TimeAndDate.pas',
   Utils in 'previous\02-daylight-saving-time\pslomski_TimeAndDate\Utils.pas',
-  WebSite in 'previous\02-daylight-saving-time\pslomski_TimeAndDate\WebSite.pas';
+  WebSite in 'previous\02-daylight-saving-time\pslomski_TimeAndDate\WebSite.pas',
+  Code02.Ongakw.Czas_Zmiana in 'previous\02-daylight-saving-time\Code02.Ongakw.Czas_Zmiana.pas';
 
 var
   runner : ITestRunner;
